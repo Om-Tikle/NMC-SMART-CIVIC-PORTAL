@@ -1,6 +1,9 @@
 const express = require("express");
 
 const authRoutes = require("./authRoutes");
+const departmentRoutes = require("./departmentRoutes");
+const categoryRoutes = require("./categoryRoutes");
+const complaintRoutes = require("./complaintRoutes");
 
 const router = express.Router();
 
@@ -12,5 +15,8 @@ router.get("/health", (_req, res) => {
 });
 
 router.use("/auth", authRoutes);
+router.use("/departments", departmentRoutes);
+router.use("/categories", categoryRoutes);
+router.use("/complaints", complaintRoutes);
 
 module.exports = router;

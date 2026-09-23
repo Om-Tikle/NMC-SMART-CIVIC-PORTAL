@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema(
       enum: ["citizen", "staff", "field_worker", "admin"],
       default: "citizen"
     },
+    department: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+      default: null
+    },
     isActive: {
       type: Boolean,
       default: true
