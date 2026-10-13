@@ -12,7 +12,11 @@ const {
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: (process.env.CORS_ORIGIN || "http://localhost:5173").split(",")
+  })
+);
 app.use(morgan("dev"));
 app.use(express.json());
 

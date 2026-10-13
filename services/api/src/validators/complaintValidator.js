@@ -35,6 +35,40 @@ const createComplaintSchema = z.object({
   priority: z.enum(["Low", "Normal", "High", "Urgent"]).optional()
 });
 
+const updateStatusSchema = z.object({
+  status: z.enum([
+    "Under Review",
+    "Assigned",
+    "In Progress",
+    "Resolved",
+    "Rejected"
+  ]),
+  note: z.string().trim().max(1000).optional()
+});
+
+const assignComplaintSchema = z.object({
+  fieldWorkerId: objectId,
+  note: z.string().trim().max(1000).optional()
+});
+
+const resolutionSchema = z
+  .object({
+    action: z.enum(["confirm", "reopen"]),
+    note: z.string().trim().max(1000).optional()
+  })
+  .superRefine((data, context) => {
+    if (data.action === "reopen" && !data.note) {
+      context.addIssue({
+        code: "custom",
+        path: ["note"],
+        message: "Please explain why you are reopening this complaint"
+      });
+    }
+  });
+
 module.exports = {
-  createComplaintSchema
+  createComplaintSchema,
+  updateStatusSchema,
+  assignComplaintSchema,
+  resolutionSchema
 };
